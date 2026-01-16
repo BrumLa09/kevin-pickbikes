@@ -1,4 +1,5 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+ESX = exports["es_extended"]:getSharedObject()
+
 local bike = nil
 local hasbike = false
 local closebike = false
@@ -13,7 +14,8 @@ local function PickUpBike(hash)
 	TaskPlayAnim(ped, "anim@heists@box_carry@" ,"idle", 5.0, -1, -1, 50, 0, false, false, false)
 	AttachEntityToEntity(bike, ped, GetPedBoneIndex(player, 60309), Config.Bikes[name].x, Config.Bikes[name].y, Config.Bikes[name].z, Config.Bikes[name].RotX, Config.Bikes[name].RotY, Config.Bikes[name].RotZ, true, false, false, true, 0, true)
 	hasbike = true
-	exports['qb-core']:DrawText("["..Config.InteractKey.."] Drop ", Config.DrawTextPosition)
+	lib.showTextUI('[' .. Config.InteractKey .. '] Drop')
+	print("IF BUG TRY USE COMMAND /DROPBIKE")
 end
 
 local function PressedKey(hash)
@@ -28,54 +30,33 @@ local function PressedKey(hash)
 	end)
 end
 
-CreateThread( function ()
-	if Config.Interaction == "qb" then
-		while true do
-			local ped = PlayerPedId()
-			local pos = GetEntityCoords(ped)
-			bike = QBCore.Functions.GetClosestVehicle()
-			for k, v in pairs(Config.Bikes) do
-				local hash = GetHashKey(k)
-				if GetEntityModel(bike) == hash then
-					local bikepos = GetEntityCoords(bike)
-                    local dist = #(pos - bikepos)
-                    if dist <= 1.5 then
-						if IsPedOnFoot(ped) and not closebike then
-							closebike = true
-							exports['qb-core']:DrawText("["..Config.InteractKey.."] Pick Up", Config.DrawTextPosition)
-							PressedKey(hash)
-						end
-					else
-						closebike = false
-						exports['qb-core']:HideText()
-					end
-				end
-			end
-			Wait(1000)
-		end
-	else
-		for k,v in pairs(Config.Bikes) do
-			local hash = GetHashKey(k)
-			exports['qb-target']:AddTargetModel(hash, {
-				options = {
-				{
-					type = "client",
-					event = "kevin-pickbikes:client:takeup", -- I'm not familiar but there is a way to put the function right in here and pass the variable i believe but this event will do for now.
-					icon = "fas fa-bicycle",
-					label = "Pick Up",
-					hash = hash
-				}
-			},
-				distance = 2.0,
-			})
-		end
-	end
+CreateThread(function()
+    for k, v in pairs(Config.Bikes) do
+        local hash = GetHashKey(k)
+        exports.ox_target:addModel(hash, {
+            {š
+                name = 'pickup_bike_' .. hash,
+                icon = 'fas fa-bicycle',
+                label = 'Pick Up',
+                distance = 2.0,
+                onSelect = function(data)
+                    TriggerEvent('kevin-pickbikes:client:takeup', {
+                        hash = hash,
+                        entity = data.entity
+                    })
+                end
+            }
+        })
+    end
 end)
 
 RegisterNetEvent("kevin-pickbikes:client:takeup", function(data)
-	local hash = data.hash
-	bike = QBCore.Functions.GetClosestVehicle()
-	PickUpBike(hash)
+    if not data or not data.entity then return end
+	if not IsThisModelABicycle(GetEntityModel(data.entity)) then return end
+		
+    local hash = data.hash
+    bike = data.entity
+    PickUpBike(hash)
 end)
 
 RegisterCommand('dropbike', function()
@@ -85,8 +66,6 @@ RegisterCommand('dropbike', function()
 		ClearPedTasks(PlayerPedId())
 		hasbike = false
 		closebike = false
-		exports['qb-core']:HideText()
+		lib.hideTextUI()
 	end
 end)
-
-RegisterKeyMapping('dropbike', 'Drop Bike', 'keyboard', Config.InteractKey)
