@@ -1,5 +1,3 @@
-ESX = exports["es_extended"]:getSharedObject()
-
 local bike = nil
 local hasbike = false
 local closebike = false
@@ -69,3 +67,4 @@ RegisterCommand('dropbike', function()
 		lib.hideTextUI()
 	end
 end)
+
