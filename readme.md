@@ -1,4 +1,4 @@
-# ESX VERSION
+# STANDALONE
 
 # This Script allows you to pickup bikes simple
 
@@ -13,5 +13,6 @@
 Preview : https://www.youtube.com/watch?v=_lxJ11hXPlA
 
 My Discord : https://discord.gg/SCnKXKN7cA
+
 
 
