@@ -1,8 +1,8 @@
 fx_version 'cerulean'
+game 'gta5'
+lua54 'yes'
 
 author 'KevinGirardx, ESX Version - BrumLa09'
-
-game 'gta5'
 
 client_scripts {
 	'client/*.lua',
@@ -10,5 +10,3 @@ client_scripts {
 shared_scripts {
 	'config.lua',
 }
-
-lua54 'yes'
