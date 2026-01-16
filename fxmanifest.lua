@@ -1,7 +1,6 @@
-
 fx_version 'cerulean'
 
-author 'KevinGirardx'
+author 'KevinGirardx, ESX Version - BrumLa09'
 
 game 'gta5'
 
