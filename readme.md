@@ -1,3 +1,5 @@
+# ESX VERSION
+
 # This Script allows you to pickup bikes simple
 
 # Useable through ox_target and drawtext
@@ -11,4 +13,5 @@
 Preview : https://www.youtube.com/watch?v=_lxJ11hXPlA
 
 My Discord : https://discord.gg/SCnKXKN7cA
+
 
