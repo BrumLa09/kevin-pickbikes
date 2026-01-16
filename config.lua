@@ -1,8 +1,6 @@
 Config = Config or {}
 
-Config.Interaction = "" --qb/target (you dont need to put  target if you want to use target, can just leave blank)
 Config.InteractKey = 'G'
-Config.DrawTextPosition = "left"
 Config.Bikes = {
     ['bmx'] = {
         ['x'] = 0.0,
@@ -61,3 +59,4 @@ Config.Bikes = {
         RotZ = 90.0
     },
 }
+
